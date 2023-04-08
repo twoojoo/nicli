@@ -15,6 +15,7 @@ const options: PromptOptions = {
 	inputColor: ["FgYellow"]
 };
 
+console.log();
 (async function () {
 	while (true) {
 		const { command, choiche } = await nicliPrompt("NYCLY ▶️ ", choiches, options)

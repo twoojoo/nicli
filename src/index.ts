@@ -122,7 +122,7 @@ export async function nicliPrompt(head?: string, choiches: Choiche[] = [], optio
 						const choiche = matchChoice(text, choiches, options)
 						if (choiche) input = [choiche.command + " "]
 						printInput(prompt, promptLength, input, choiches, options)
-						setCursorPosition(choiche.command.length, promptLength)
+						setCursorPosition(choiche?.command?.length || 0, promptLength)
 					} else if (char) {
 						const position = getActualCursorPosition(promptLength)
 						input.splice(position, 0, char)
