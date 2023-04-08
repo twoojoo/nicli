@@ -5,8 +5,6 @@ import { COLORS } from "./colors";
 const STDOUT = process.stdout
 const STDIN = process.stdin
 
-let isProcessingAKey: boolean = false
-
 export type Choiche = {
 	command: string,
 	description?: string
@@ -41,6 +39,10 @@ function parseOptions(options: PromptOptions): Required<PromptOptions> {
 	}
 }
 
+
+let isProcessingAKey: boolean = false
+const history: string[][] = []
+
 export async function nicliPrompt(head?: string, choiches: Choiche[] = [], options: PromptOptions = {}): Promise<string> {
 	options = parseOptions(options)
 	const { prompt, promptLength } = parsePrompt(head, options)
@@ -52,6 +54,7 @@ export async function nicliPrompt(head?: string, choiches: Choiche[] = [], optio
 	STDOUT.write(applyColor(prompt, options.promptColor))
 
 	let input: string[] = []
+	let historyIndex = history.length 
 
 	return new Promise<string>((resolve) => {
 		const keyListener = (char: string, key: Key) => {
@@ -59,6 +62,18 @@ export async function nicliPrompt(head?: string, choiches: Choiche[] = [], optio
 			isProcessingAKey = true
 
 			if (key.sequence)
+				if (key.name == "up") {
+					historyIndex = historyIndex == 0 ? 0 : historyIndex - 1
+					input = history[historyIndex]
+					printInput(prompt, promptLength, input, choiches, options)
+				} else if (key.name == "down") {
+					if (historyIndex >= history.length) input = []
+					else {
+						historyIndex += 1
+						input = history[historyIndex] || []
+					}
+					printInput(prompt, promptLength, input, choiches, options)
+				} else 
 				if (key.name == "left") {
 					const left = getCursorPosition.sync().col - 2
 					if (left > promptLength - 3) STDOUT.cursorTo(left)
@@ -70,6 +85,7 @@ export async function nicliPrompt(head?: string, choiches: Choiche[] = [], optio
 					STDOUT.write("\n")
 					STDIN.removeListener("keypress", keyListener)
 					isProcessingAKey = false
+					history.push(input)
 					resolve(input.join(""))
 				} else if (key.ctrl && key.name == "c") {
 					exit()
@@ -151,6 +167,8 @@ function buildOutput(text: string, choiche: Choiche, options: PromptOptions): st
 	const choicheText = (choiche.command + " - " + choiche.description).slice(text.length)
 	return applyColor(text, options.inputColor) + applyColor(choicheText, options.suggestionColor)
 }
+
+
 
 function exit(code: number = 0) {
 	STDOUT.write("\n")
