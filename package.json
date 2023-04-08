@@ -10,6 +10,7 @@
     "test-dev": "ts-node src/test.ts",
     "build": "rm -rf ./dist && tsc"
   },
+  "types": "./dist/index.d.ts",
   "keywords": [
     "interactive",
     "redis-like",

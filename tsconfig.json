@@ -4,10 +4,10 @@
     "module": "commonjs",
     "outDir": "./dist",
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
+    "allowJs": true,
+    "declaration": true
   },
   "include": [
-    "./src"
+    "./src/**/*"
   ]
 }
