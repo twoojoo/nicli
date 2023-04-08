@@ -1,6 +1,6 @@
 {
   "name": "niclijs",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Interactive Redis-like CLIs builder for Node.js",
   "type": "commonjs",
   "main": "./dist/index.js",
