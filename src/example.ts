@@ -6,7 +6,7 @@ const choiches: Choiche[] = [{
 	action: () => console.log("hello")
 }, {
 	command: "ECHO",
-	// description: "prints something",
+	description: "prints arguments",
 	action: (args) => console.log(...args)
 }];
 
