@@ -1,7 +1,7 @@
 {
   "name": "nicli",
   "version": "0.0.1",
-  "description": "Interactive Redis-like CLI for Node.js",
+  "description": "Interactive Redis-like CLIs builder for Node.js",
   "type": "commonjs",
   "scripts": {
     "test": "npm run build && node dist/test.js",
