@@ -1,5 +1,7 @@
 # ▶️ NICLI - Node Interactive (Redis-like) CLIs builder
 
+![Demo](demo.gif)
+
 ## Install
 
 ```bash
