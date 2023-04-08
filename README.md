@@ -51,7 +51,7 @@ import { prompt } from "niclijs"
 ## Example
 
 ```typescript
-import { nicliPrompt, Choiche } from "."
+import { nicliPrompt, Choiche } from "niclijs"
 
 const choiches: Choiche[] = [{
 	command: "SAY_HELLO",
