@@ -42,7 +42,8 @@ import { prompt } from "niclijs"
 
 ### Options
 
-- **spaceAfterPrompt**: sets a space character between the prompt and the input (default: true)
+- **triggerActions**: automatically trigger choiches actions (default: *true*)
+- **spaceAfterPrompt**: sets a space character between the prompt and the input (default: *true*)
 - **suggestionColor**: sets the colors of the suggested commands
 - **promptColor**: sets the color of the prompt
 - **inputColor**: sets the color of the typed input
@@ -50,15 +51,23 @@ import { prompt } from "niclijs"
 ## Example
 
 ```typescript
-import { prompt } from "niclijs"
+import { nicliPrompt, Choiche } from "."
 
-const commands = 
+const choiches: Choiche[] = [{
+	command: "SAY_HELLO",
+	description: "prints 'hello'",
+	action: () => console.log("hello")
+}, {
+	command: "ECHO",
+	description: "prints something",
+	action: (args: string[]) => console.log(...args)
+}];
 
 (async function () {
 	while (true) {
-		const input = await nicliPrompt(" NYCLY ▶️ ", commands)
-
-		console.log(">>>", input)
-	}
+		const { command, choiche, args } = await nicliPrompt("NYCLY ▶️ ", choiches)
+		if (choiche) choiche.action(args)
+		else console.log("unknow command: ", command)
+	}	
 })()
 ```

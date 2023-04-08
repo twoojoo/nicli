@@ -5,10 +5,20 @@ import { COLORS } from "./colors";
 const STDOUT = process.stdout
 const STDIN = process.stdin
 
+export type ChoicheAction = (args: string[]) => any
+
 export type Choiche = {
 	command: string,
 	description?: string,
-	[x: string]: any
+	action?: ChoicheAction
+}
+
+function parseChoiches(choiches: Choiche[]): Required<Choiche>[] {
+	return choiches.map(ch => ({
+		description: "",
+		action: () => {},
+		...ch
+	}))
 }
 
 type Key = {
@@ -25,7 +35,8 @@ export type PromptOptions = {
 	spaceAfterPrompt?: boolean,
 	suggestionColor?: Color[]
 	promptColor?: Color[]
-	inputColor?: Color[]
+	inputColor?: Color[],
+	triggerActions?: boolean
 }
 
 function parseOptions(options: PromptOptions): Required<PromptOptions> {
@@ -34,6 +45,7 @@ function parseOptions(options: PromptOptions): Required<PromptOptions> {
 		spaceAfterPrompt: true,
 		promptColor: [],
 		inputColor: [],
+		triggerActions: true,
 		...options
 	}
 }
@@ -46,6 +58,7 @@ let isProcessingAKey: boolean = false
 const history: string[][] = []
 
 export async function nicliPrompt(head?: string, choiches: Choiche[] = [], options: PromptOptions = {}): Promise<PromptInput> {
+	choiches = parseChoiches(choiches)
 	options = parseOptions(options)
 	const { prompt, promptLength } = parsePrompt(head, options)
 		
@@ -84,13 +97,16 @@ export async function nicliPrompt(head?: string, choiches: Choiche[] = [], optio
 						STDOUT.cursorTo(right)
 					} else if (key.name == "return") {
 						printInput(prompt, promptLength, input, [], options)
+
 						STDOUT.write("\n")
 						STDIN.removeListener("keypress", keyListener)
+
 						isProcessingAKey = false
 						history.push(input)
 						const text = input.join("")
+
 						resolve({
-							...parseInput(text, choiches),
+							...parseInput(text, choiches, options),
 							raw: text
 						})
 					} else if (key.ctrl && key.name == "c") {
@@ -171,7 +187,11 @@ function printInput(prompt: string, promptLength: number, input: string[], choic
 
 function buildOutput(text: string, choiche: Choiche, options: PromptOptions): string {
 	if (!choiche) return applyColor(text, options.inputColor)
-	const choicheText = (choiche.command + " - " + choiche.description).slice(text.length)
+		
+	const choicheText = choiche.description ? 
+		(choiche.command + " - " + choiche.description).slice(text.length) : 
+		choiche.command.slice(text.length) 
+
 	return applyColor(text, options.inputColor) + applyColor(choicheText, options.suggestionColor)
 }
 
@@ -181,11 +201,15 @@ export type ParsedInput = {
 	args: string[]
 }
 
-export function parseInput(rawInput: string, choiches: Choiche[]): ParsedInput {
+export function parseInput(rawInput: string, choiches: Choiche[], options: PromptOptions): ParsedInput {
 	if (!rawInput) return
 	const command = rawInput.split(" ")[0]
-	const args = rawInput.split(command + " ")
+	const args = rawInput.split(command + " ")[1].split(" ")
 	const choiche = choiches.find(c => c.command == command)
+
+	if (options.triggerActions) {
+		choiche?.action(args)
+	}
 
 	return {
 		command,

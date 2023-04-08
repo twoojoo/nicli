@@ -6,14 +6,13 @@ const choiches: Choiche[] = [{
 	action: () => console.log("hello")
 }, {
 	command: "ECHO",
-	description: "prints something",
-	action: (args: string) => console.log(args)
+	// description: "prints something",
+	action: (args) => console.log(...args)
 }];
 
 (async function () {
 	while (true) {
-		const { command, choiche, args } = await nicliPrompt("NYCLY ▶️ ", choiches)
-		if (choiche) choiche.action(args)
-		else console.log("unknow command: ", command)
+		const { command, choiche } = await nicliPrompt("NYCLY ▶️ ", choiches)
+		if (!choiche) console.log("unknow command: ", command)
 	}	
 })()
