@@ -61,8 +61,7 @@ export async function prompt(head?: string, choiches: Choiche[] = [], options: P
 			if (key.sequence)
 				if (key.name == "left") {
 					const left = getCursorPosition.sync().col - 2
-					if (left <= promptLength - 2) return
-					STDOUT.cursorTo(left)
+					if (left > promptLength - 3) STDOUT.cursorTo(left)
 				} else if (key.name == "right") {
 					const right = getCursorPosition.sync().col
 					STDOUT.cursorTo(right)
