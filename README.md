@@ -1,4 +1,4 @@
-# NICLI - Node Interactive (Redis-like) CLIs builder
+# ▶️ NICLI - Node Interactive (Redis-like) CLIs builder
 
 ## Install
 
