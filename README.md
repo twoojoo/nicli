@@ -1,8 +1,10 @@
 # ▶️ NICLI - Node Interactive (Redis-like) CLIs builder
 
+<br>
 <p align="center">
   <img src="demo.gif" alt="demo" />
 </p>
+<br>
 
 ## Install
 
