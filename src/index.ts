@@ -26,7 +26,6 @@ export type PromptOptions = {
 	suggestionColor?: Color[]
 	promptColor?: Color[]
 	inputColor?: Color[]
-	// tabSpaces?: number
 }
 
 function parseOptions(options: PromptOptions): Required<PromptOptions> {
@@ -39,11 +38,14 @@ function parseOptions(options: PromptOptions): Required<PromptOptions> {
 	}
 }
 
+export type PromptInput = ParsedInput & {
+	raw: string
+}
 
 let isProcessingAKey: boolean = false
 const history: string[][] = []
 
-export async function nicliPrompt(head?: string, choiches: Choiche[] = [], options: PromptOptions = {}): Promise<string> {
+export async function nicliPrompt(head?: string, choiches: Choiche[] = [], options: PromptOptions = {}): Promise<PromptInput> {
 	options = parseOptions(options)
 	const { prompt, promptLength } = parsePrompt(head, options)
 		
@@ -56,7 +58,7 @@ export async function nicliPrompt(head?: string, choiches: Choiche[] = [], optio
 	let input: string[] = []
 	let historyIndex = history.length 
 
-	return new Promise<string>((resolve) => {
+	return new Promise<PromptInput>((resolve) => {
 		const keyListener = (char: string, key: Key) => {
 			if (isProcessingAKey) return	
 			isProcessingAKey = true
@@ -74,37 +76,41 @@ export async function nicliPrompt(head?: string, choiches: Choiche[] = [], optio
 					}
 					printInput(prompt, promptLength, input, choiches, options)
 				} else 
-				if (key.name == "left") {
-					const left = getCursorPosition.sync().col - 2
-					if (left > promptLength - 3) STDOUT.cursorTo(left)
-				} else if (key.name == "right") {
-					const right = getCursorPosition.sync().col
-					STDOUT.cursorTo(right)
-				} else if (key.name == "return") {
-					printInput(prompt, promptLength, input, [], options)
-					STDOUT.write("\n")
-					STDIN.removeListener("keypress", keyListener)
-					isProcessingAKey = false
-					history.push(input)
-					resolve(input.join(""))
-				} else if (key.ctrl && key.name == "c") {
-					exit()
-				} else if (key.name == "backspace") {
-					input = deleteCharacterBeforeCursor(prompt, promptLength, input, choiches, options) 
-				} else if (key.name == "delete") {
-					input = deleteCharacterAfterCursor(prompt, promptLength, input, choiches, options) 
-				} else if (key.name == "tab") {
-					const text = input.join("")
-					const choiche = choiches.find(c => c.command.toLowerCase().startsWith(text.toLowerCase()))
-					if (choiche) input = [choiche.command + " "]
-					printInput(prompt, promptLength, input, choiches, options)
-					setCursorPosition(choiche.command.length, promptLength)
-				} else if (char) {
-					const position = getActualCursorPosition(promptLength)
-					input.splice(position, 0, char)
-					printInput(prompt, promptLength, input, choiches, options)
-					setCursorPosition(position, promptLength)
-				}
+					if (key.name == "left") {
+						const left = getCursorPosition.sync().col - 2
+						if (left > promptLength - 3) STDOUT.cursorTo(left)
+					} else if (key.name == "right") {
+						const right = getCursorPosition.sync().col
+						STDOUT.cursorTo(right)
+					} else if (key.name == "return") {
+						printInput(prompt, promptLength, input, [], options)
+						STDOUT.write("\n")
+						STDIN.removeListener("keypress", keyListener)
+						isProcessingAKey = false
+						history.push(input)
+						const text = input.join("")
+						resolve({
+							...parseInput(text, choiches),
+							raw: text
+						})
+					} else if (key.ctrl && key.name == "c") {
+						exit()
+					} else if (key.name == "backspace") {
+						input = deleteCharacterBeforeCursor(prompt, promptLength, input, choiches, options) 
+					} else if (key.name == "delete") {
+						input = deleteCharacterAfterCursor(prompt, promptLength, input, choiches, options) 
+					} else if (key.name == "tab") {
+						const text = input.join("")
+						const choiche = choiches.find(c => c.command.toLowerCase().startsWith(text.toLowerCase()))
+						if (choiche) input = [choiche.command + " "]
+						printInput(prompt, promptLength, input, choiches, options)
+						setCursorPosition(choiche.command.length, promptLength)
+					} else if (char) {
+						const position = getActualCursorPosition(promptLength)
+						input.splice(position, 0, char)
+						printInput(prompt, promptLength, input, choiches, options)
+						setCursorPosition(position, promptLength)
+					}
 
 			isProcessingAKey = false
 		}
@@ -169,7 +175,24 @@ function buildOutput(text: string, choiche: Choiche, options: PromptOptions): st
 	return applyColor(text, options.inputColor) + applyColor(choicheText, options.suggestionColor)
 }
 
+export type ParsedInput = {
+	command?: string,
+	choiche?: Choiche,
+	args: string[]
+}
 
+export function parseInput(rawInput: string, choiches: Choiche[]): ParsedInput {
+	if (!rawInput) return
+	const command = rawInput.split(" ")[0]
+	const args = rawInput.split(command + " ")
+	const choiche = choiches.find(c => c.command == command)
+
+	return {
+		command,
+		choiche,
+		args,
+	}
+}
 
 function exit(code: number = 0) {
 	STDOUT.write("\n")
