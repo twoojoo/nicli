@@ -14,6 +14,8 @@ npm install nicli
 
 ## Usage
 
+Just put the prompt function in an endless loop and react to the returned input. Use **ctrll+c** as exit sequence.
+
 ```typescript
 import { prompt } from "nicli"
 
@@ -31,3 +33,15 @@ import { prompt } from "nicli"
 	}
 })()
 ```
+
+### Options
+
+**spaceAfterPrompt**: sets a space character between the prompt and the input (default: true)
+
+**suggestionColor**: sets the colors of the succested commands
+
+**promptColor**: sets the color of the prompt
+
+**inputColor**: sets the color of the typed input
+
+**tabSpaces**: number of spaces that compose a *tab* character (default: 4)
