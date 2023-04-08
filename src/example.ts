@@ -1,4 +1,4 @@
-import { nicliPrompt, Choiche } from "."
+import { nicliPrompt, Choiche, PromptOptions } from "."
 
 const choiches: Choiche[] = [{
 	command: "SAY_HELLO",
@@ -10,9 +10,14 @@ const choiches: Choiche[] = [{
 	action: (args) => console.log(...args)
 }];
 
+const options: PromptOptions = {
+	promptColor: ["FgRed", "BgYellow"],
+	inputColor: ["FgYellow"]
+};
+
 (async function () {
 	while (true) {
-		const { command, choiche } = await nicliPrompt("NYCLY ▶️ ", choiches, { caseSensitive: true })
+		const { command, choiche } = await nicliPrompt("NYCLY ▶️ ", choiches, options)
 		if (!choiche) console.log("unknow command: ", command)
 	}	
 })()

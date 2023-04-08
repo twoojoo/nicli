@@ -12,7 +12,7 @@
 npm install niclijs
 ```
 
-## Usage
+## Basic Usage
 
 Just put the prompt function in an endless loop and react to the returned input. Use **ctrl+c** as exit sequence.
 
@@ -21,14 +21,7 @@ import { prompt } from "niclijs"
 
 (async function () {
 	while (true) {
-		const { raw } = await nicliPrompt(" NYCLY ▶️ ", [{ 
-			command: "MYCOMMAND",
-			description: "my command description"
-		}], {
-			promptColor: ["FgRed", "BgYellow"],
-			inputColor: ["FgYellow"]
-		})
-
+		const { raw } = await nicliPrompt(" NYCLY ▶️ ")
 		console.log(">>>", raw)
 	}
 })()
@@ -52,7 +45,7 @@ import { prompt } from "niclijs"
 ## Example
 
 ```typescript
-import { nicliPrompt, Choiche } from "niclijs"
+import { nicliPrompt, Choiche, PromptOptions } from "niclijs"
 
 const choiches: Choiche[] = [{
 	command: "SAY_HELLO",
@@ -64,9 +57,14 @@ const choiches: Choiche[] = [{
 	action: (args) => console.log(...args)
 }];
 
+const options: PromptOptions = {
+	promptColor: ["FgRed", "BgYellow"],
+	inputColor: ["FgYellow"]
+};
+
 (async function () {
 	while (true) {
-		const { command, choiche } = await nicliPrompt("NYCLY ▶️ ", choiches)
+		const { command, choiche } = await nicliPrompt("NYCLY ▶️ ", choiches, options)
 		if (!choiche) console.log("unknow command: ", command)
 	}	
 })()
