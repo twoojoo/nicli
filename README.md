@@ -1,4 +1,15 @@
-import { prompt } from "."
+# NICLI - Node Interactive (Redis-like) CLIs builder
+
+## Install
+
+```bash
+npm install nicli
+```
+
+## Usage
+
+```typescript
+import { prompt } from "nicli"
 
 (async function () {
 	while (true) {
@@ -13,3 +24,4 @@ import { prompt } from "."
 		console.log(">>>", input)
 	}
 })()
+```
