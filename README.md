@@ -43,6 +43,7 @@ import { prompt } from "niclijs"
 ### Options
 
 - **triggerActions**: automatically trigger choiches actions (default: *true*)
+- **caseSensitive**: case sensitive while trying to match input with provided choiches (default: *false*)
 - **spaceAfterPrompt**: sets a space character between the prompt and the input (default: *true*)
 - **suggestionColor**: sets the colors of the suggested commands
 - **promptColor**: sets the color of the prompt
