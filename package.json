@@ -1,0 +1,25 @@
+{
+  "name": "nicli",
+  "version": "0.0.1",
+  "description": "Interactive Redis-like CLI for Node.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "npm run build && node dist/test.js",
+    "test-dev": "ts-node test.ts",
+    "build": "rm -rf ./dist &&tsc"
+  },
+  "keywords": [
+    "interactive",
+    "prompt",
+    "cli"
+  ],
+  "author": "twoojoo",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1"
+  },
+  "dependencies": {
+    "get-cursor-position": "^2.0.0"
+  }
+}
