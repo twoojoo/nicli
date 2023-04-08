@@ -122,7 +122,7 @@ function deleteCharacterBeforeCursor(prompt: string, promptLength: number, input
 
 function deleteCharacterAfterCursor(prompt: string, promptLength: number, input: string[], choiches: Choiche[], options: PromptOptions): string[] {
 	const position = getActualCursorPosition(promptLength)
-	input.splice(position - 2, 1)
+	input.splice(position, 1)
 	printInput(prompt, promptLength, input, choiches, options,)
 	setCursorPosition(position - 1, promptLength)
 	return input
