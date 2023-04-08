@@ -12,7 +12,7 @@ const choiches: Choiche[] = [{
 
 (async function () {
 	while (true) {
-		const { command, choiche } = await nicliPrompt("NYCLY ▶️ ", choiches)
+		const { command, choiche } = await nicliPrompt("NYCLY ▶️ ", choiches, { caseSensitive: true })
 		if (!choiche) console.log("unknow command: ", command)
 	}	
 })()

@@ -37,6 +37,7 @@ export type PromptOptions = {
 	promptColor?: Color[]
 	inputColor?: Color[],
 	triggerActions?: boolean
+	caseSensitive?: boolean
 }
 
 function parseOptions(options: PromptOptions): Required<PromptOptions> {
@@ -46,6 +47,7 @@ function parseOptions(options: PromptOptions): Required<PromptOptions> {
 		promptColor: [],
 		inputColor: [],
 		triggerActions: true,
+		caseSensitive: false,
 		...options
 	}
 }
@@ -117,7 +119,7 @@ export async function nicliPrompt(head?: string, choiches: Choiche[] = [], optio
 						input = deleteCharacterAfterCursor(prompt, promptLength, input, choiches, options) 
 					} else if (key.name == "tab") {
 						const text = input.join("")
-						const choiche = choiches.find(c => c.command.toLowerCase().startsWith(text.toLowerCase()))
+						const choiche = matchChoice(text, choiches, options)
 						if (choiche) input = [choiche.command + " "]
 						printInput(prompt, promptLength, input, choiches, options)
 						setCursorPosition(choiche.command.length, promptLength)
@@ -178,7 +180,7 @@ function printInput(prompt: string, promptLength: number, input: string[], choic
 		return
 	}
 
-	const choiche = choiches.find(c => c.command.toLowerCase().startsWith(text.toLowerCase()))
+	const choiche = matchChoice(text, choiches, options, true)
 	const output = buildOutput(text, choiche, options)
 
 	STDOUT.write(output)
@@ -187,7 +189,7 @@ function printInput(prompt: string, promptLength: number, input: string[], choic
 
 function buildOutput(text: string, choiche: Choiche, options: PromptOptions): string {
 	if (!choiche) return applyColor(text, options.inputColor)
-		
+
 	const choicheText = choiche.description ? 
 		(choiche.command + " - " + choiche.description).slice(text.length) : 
 		choiche.command.slice(text.length) 
@@ -204,8 +206,8 @@ export type ParsedInput = {
 export function parseInput(rawInput: string, choiches: Choiche[], options: PromptOptions): ParsedInput {
 	if (!rawInput) return
 	const command = rawInput.split(" ")[0]
-	const args = rawInput.split(command + " ")[1].split(" ")
-	const choiche = choiches.find(c => c.command == command)
+	const args = rawInput.split(command + " ")[1]?.split(" ") || []
+	const choiche = matchChoice(command, choiches, options, false)
 
 	if (options.triggerActions) {
 		choiche?.action(args)
@@ -215,6 +217,22 @@ export function parseInput(rawInput: string, choiches: Choiche[], options: Promp
 		command,
 		choiche,
 		args,
+	}
+}
+
+function matchChoice(command: string, choiches: Choiche[], options: PromptOptions, partial = false): Choiche {
+	if (!partial) {
+		if (options.caseSensitive) {
+			return choiches.find(c => c.command == command)
+		} else {
+			return choiches.find(c => c.command.toLowerCase() == command.toLowerCase())
+		}
+	} else {
+		if (options.caseSensitive) {
+			return choiches.find(c => c.command.startsWith(command))
+		} else {
+			return choiches.find(c => c.command.toLowerCase().startsWith(command.toLowerCase()))
+		}
 	}
 }
 
