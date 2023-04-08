@@ -17,7 +17,7 @@ npm install niclijs
 Just put the prompt function in an endless loop and react to the returned input. Use **ctrll+c** as exit sequence.
 
 ```typescript
-import { prompt } from "nicli"
+import { prompt } from "niclijs"
 
 (async function () {
 	while (true) {
