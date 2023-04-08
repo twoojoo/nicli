@@ -74,7 +74,7 @@ export async function nicliPrompt(head?: string, choiches: Choiche[] = [], optio
 	let historyIndex = history.length 
 
 	return new Promise<PromptInput>((resolve) => {
-		const keyListener = (char: string, key: Key) => {
+		const keyListener = async (char: string, key: Key) => {
 			if (isProcessingAKey) return	
 			isProcessingAKey = true
 
@@ -108,7 +108,7 @@ export async function nicliPrompt(head?: string, choiches: Choiche[] = [], optio
 						const text = input.join("")
 
 						resolve({
-							...parseInput(text, choiches, options),
+							...(await parseInput(text, choiches, options)),
 							raw: text
 						})
 					} else if (key.ctrl && key.name == "c") {
@@ -203,14 +203,14 @@ export type ParsedInput = {
 	args: string[]
 }
 
-export function parseInput(rawInput: string, choiches: Choiche[], options: PromptOptions): ParsedInput {
+export async function parseInput(rawInput: string, choiches: Choiche[], options: PromptOptions): Promise<ParsedInput> {
 	if (!rawInput) return
 	const command = rawInput.split(" ")[0]
 	const args = rawInput.split(command + " ")[1]?.split(" ") || []
 	const choiche = matchChoice(command, choiches, options, false)
 
 	if (options.triggerActions) {
-		choiche?.action(args)
+		await choiche?.action(args)
 	}
 
 	return {
