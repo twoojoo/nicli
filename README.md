@@ -40,4 +40,19 @@ import { prompt } from "niclijs"
 - **suggestionColor**: sets the colors of the suggested commands
 - **promptColor**: sets the color of the prompt
 - **inputColor**: sets the color of the typed input
-- **tabSpaces**: number of spaces that compose a *tab* character (default: 4)
+
+## Example
+
+```typescript
+import { prompt } from "niclijs"
+
+const commands = 
+
+(async function () {
+	while (true) {
+		const input = await nicliPrompt(" NYCLY ▶️ ", commands)
+
+		console.log(">>>", input)
+	}
+})()
+```

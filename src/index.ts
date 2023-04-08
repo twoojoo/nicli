@@ -7,7 +7,8 @@ const STDIN = process.stdin
 
 export type Choiche = {
 	command: string,
-	description?: string
+	description?: string,
+	[x: string]: any
 }
 
 type Key = {
@@ -25,7 +26,7 @@ export type PromptOptions = {
 	suggestionColor?: Color[]
 	promptColor?: Color[]
 	inputColor?: Color[]
-	tabSpaces?: number
+	// tabSpaces?: number
 }
 
 function parseOptions(options: PromptOptions): Required<PromptOptions> {
@@ -34,7 +35,6 @@ function parseOptions(options: PromptOptions): Required<PromptOptions> {
 		spaceAfterPrompt: true,
 		promptColor: [],
 		inputColor: [],
-		tabSpaces: 4,
 		...options
 	}
 }
@@ -94,10 +94,11 @@ export async function nicliPrompt(head?: string, choiches: Choiche[] = [], optio
 				} else if (key.name == "delete") {
 					input = deleteCharacterAfterCursor(prompt, promptLength, input, choiches, options) 
 				} else if (key.name == "tab") {
-					const position = getActualCursorPosition(promptLength)
-					for (let i = 0; i < options.tabSpaces; i++) input.splice(position + i, 0, " ")
+					const text = input.join("")
+					const choiche = choiches.find(c => c.command.toLowerCase().startsWith(text.toLowerCase()))
+					if (choiche) input = [choiche.command + " "]
 					printInput(prompt, promptLength, input, choiches, options)
-					setCursorPosition(position + options.tabSpaces - 1, promptLength)
+					setCursorPosition(choiche.command.length, promptLength)
 				} else if (char) {
 					const position = getActualCursorPosition(promptLength)
 					input.splice(position, 0, char)
