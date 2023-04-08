@@ -99,21 +99,24 @@ export async function prompt(head?: string, choiches: Choiche[] = [], options: P
 
 /**position = index of next character in input*/
 function getActualCursorPosition(promptLength: number): number {
-	return (getCursorPosition.sync().col - promptLength) + 2
+	const position = (getCursorPosition.sync().col - (promptLength - 1))
+	return position >= 1 ? position : 0
 }
 
 function setCursorPosition(position: number, promptLength: number): void {
 	if (isNaN(position) || isNaN(promptLength)) return
-	if (position < 1) STDOUT.cursorTo(promptLength)
-	else STDOUT.cursorTo(position - 2 + promptLength)
+	if (position < -1) position = -1
+	if (position < 1) STDOUT.cursorTo(position + (promptLength - 1))
+	else STDOUT.cursorTo(position + (promptLength - 1))
 }
 
 function deleteCharacterBeforeCursor(prompt: string, promptLength: number, input: string[], choiches: Choiche[], options: PromptOptions): string[] {
 	const position = getActualCursorPosition(promptLength)
-	if (position == 2) return []
-	input.splice(position - 3, 1)
+	if (position <= 0) return []
+	input.splice(position - 1, 1)
 	printInput(prompt, promptLength, input, choiches, options)
-	setCursorPosition(position - 2, promptLength)
+	if (input.length == 0) setCursorPosition(-1, promptLength)
+	else setCursorPosition(position - 2, promptLength)
 	return input
 }
 
