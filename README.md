@@ -21,7 +21,7 @@ import { prompt } from "niclijs"
 
 (async function () {
 	while (true) {
-		const input = await prompt(" NYCLY ▶️ ", [{ 
+		const input = await nicliPrompt(" NYCLY ▶️ ", [{ 
 			command: "MYCOMMAND",
 			description: "my command description"
 		}], {

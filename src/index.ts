@@ -41,7 +41,7 @@ function parseOptions(options: PromptOptions): Required<PromptOptions> {
 	}
 }
 
-export async function prompt(head?: string, choiches: Choiche[] = [], options: PromptOptions = {}): Promise<string> {
+export async function nicliPrompt(head?: string, choiches: Choiche[] = [], options: PromptOptions = {}): Promise<string> {
 	options = parseOptions(options)
 	const { prompt, promptLength } = parsePrompt(head, options)
 		
