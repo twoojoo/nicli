@@ -36,12 +36,8 @@ import { prompt } from "nicli"
 
 ### Options
 
-**spaceAfterPrompt**: sets a space character between the prompt and the input (default: true)
-
-**suggestionColor**: sets the colors of the succested commands
-
-**promptColor**: sets the color of the prompt
-
-**inputColor**: sets the color of the typed input
-
-**tabSpaces**: number of spaces that compose a *tab* character (default: 4)
+- **spaceAfterPrompt**: sets a space character between the prompt and the input (default: true)
+- **suggestionColor**: sets the colors of the suggested commands
+- **promptColor**: sets the color of the prompt
+- **inputColor**: sets the color of the typed input
+- **tabSpaces**: number of spaces that compose a *tab* character (default: 4)
