@@ -163,7 +163,10 @@ function applyColor(text: string, colors: Color[]) {
 
 function parsePrompt(prompt: string, options: PromptOptions): { prompt: string, promptLength: number } {
 	let promptLength = prompt.length
+
+	if (options.promptColor.length == 0) prompt = `\x1b[0m` + prompt + '\x1b[0m'
 	prompt = applyColor(prompt.toString(), options.promptColor)
+
 	if (options.spaceAfterPrompt) {
 		prompt += " "
 		promptLength++
