@@ -1,15 +1,18 @@
 {
-  "name": "nicli",
+  "name": "niclijs",
   "version": "0.0.1",
   "description": "Interactive Redis-like CLIs builder for Node.js",
   "type": "commonjs",
+  "main": "./dist/index.js",
   "scripts": {
+    "prepare": "npm run build",
     "test": "npm run build && node dist/test.js",
     "test-dev": "ts-node src/test.ts",
     "build": "rm -rf ./dist && tsc"
   },
   "keywords": [
     "interactive",
+    "redis-like",
     "prompt",
     "cli"
   ],

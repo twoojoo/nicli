@@ -9,7 +9,7 @@
 ## Install
 
 ```bash
-npm install nicli
+npm install niclijs
 ```
 
 ## Usage
