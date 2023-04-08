@@ -34,6 +34,12 @@ import { prompt } from "niclijs"
 })()
 ```
 
+### Special Keys
+
+- **ctrl + c**: close the program
+- **up/down arrows**: move through commands history
+- **TAB**: autocomplete (if a command is suggested)
+
 ### Options
 
 - **spaceAfterPrompt**: sets a space character between the prompt and the input (default: true)
