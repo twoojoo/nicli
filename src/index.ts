@@ -79,9 +79,9 @@ export async function prompt(head?: string, choiches: Choiche[] = [], options: P
 					input = deleteCharacterAfterCursor(prompt, promptLength, input, choiches, options) 
 				} else if (key.name == "tab") {
 					const position = getActualCursorPosition(promptLength)
-					for (let i = 0; i < options.tabSpaces; i++) input.splice(position + i - 2, 0, "_")
+					for (let i = 0; i < options.tabSpaces; i++) input.splice(position + i, 0, " ")
 					printInput(prompt, promptLength, input, choiches, options)
-					setCursorPosition(position + options.tabSpaces, promptLength)
+					setCursorPosition(position + options.tabSpaces - 1, promptLength)
 				} else if (char) {
 					const position = getActualCursorPosition(promptLength)
 					input.splice(position, 0, char)
