@@ -119,7 +119,7 @@ export async function nicliPrompt(head?: string, choiches: Choiche[] = [], optio
 						input = deleteCharacterAfterCursor(prompt, promptLength, input, choiches, options) 
 					} else if (key.name == "tab") {
 						const text = input.join("")
-						const choiche = matchChoice(text, choiches, options)
+						const choiche = matchChoice(text, choiches, options, true)
 						if (choiche) input = [choiche.command + " "]
 						printInput(prompt, promptLength, input, choiches, options)
 						setCursorPosition(choiche?.command?.length || 0, promptLength)
