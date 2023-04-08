@@ -36,9 +36,9 @@ import { prompt } from "niclijs"
 
 ### Special Keys
 
-- **ctrl + c**: close the program
-- **up/down arrows**: move through commands history
-- **TAB**: autocomplete (if a command is suggested)
+- **Ctrl + c**: close the program
+- **Up/Down arrows**: move through commands history
+- **Tab**: autocomplete (if a command is suggested)
 
 ### Options
 
