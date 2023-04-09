@@ -195,7 +195,7 @@ function printInput(prompt: string, promptLength: number, input: string[], choic
 	STDOUT.write("\r")
 	STDOUT.write(applyColor(prompt, options.promptColor))
 
-	const text = input.join("")
+	const text = input?.join("") || ""
 
 	if (text.length == 0) {
 		setCursorPosition(0, promptLength)

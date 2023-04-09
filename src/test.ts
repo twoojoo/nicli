@@ -1,8 +1,9 @@
 import { nicliPrompt } from "."
 
 (async function () {
+	console.log()
 	while (true) {
-		const { raw } = await nicliPrompt(" NYCLY ▶️ ", [{ 
+		const { raw, exit } = await nicliPrompt("nicli >", [{ 
 			command: "MYCOMMAND",
 			description: "my command description"
 		}], {
@@ -10,6 +11,7 @@ import { nicliPrompt } from "."
 			inputColor: ["FgYellow"]
 		})
 
+		if (exit) process.exit(0) 
 		console.log(">>>", raw)
 	}
 })()
