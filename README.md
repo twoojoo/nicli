@@ -22,7 +22,7 @@ import { prompt } from "niclijs"
 (async function () {
 
 	while (true) {
-		const { raw, exit } = await nicliPrompt(" NYCLY ▶️ ")
+		const { raw, exit } = await nicliPrompt("nicli >")
 
 		if (exit) break
 
@@ -32,6 +32,14 @@ import { prompt } from "niclijs"
 	process.exit(0)
 })()
 ```
+
+### Returned Input
+
+- **raw**: (*string*) raw typed string
+- **command**: (*string*) first word of the input
+- **args**: (*strings array*) following words of the input
+- **choiche**: (*Choice*) choiche object if the input matches something
+- **exit**: (*boolean*) exit signal
 
 ### Special Keys
 
@@ -70,7 +78,7 @@ const options: PromptOptions = {
 
 (async function () {
 	while (true) {
-		const { command, choiche, exit } = await nicliPrompt("NYCLY ▶️ ", choiches, options)
+		const { command, choiche, exit } = await nicliPrompt("nicli >", choiches, options)
 		if (exit) process.exit(0)
 		if (!choiche) console.log("unknow command: ", command)
 	}	
