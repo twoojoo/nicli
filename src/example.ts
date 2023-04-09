@@ -11,14 +11,15 @@ const choiches: Choiche[] = [{
 }];
 
 const options: PromptOptions = {
-	promptColor: ["FgRed", "BgYellow"],
-	inputColor: ["FgYellow"]
+	// promptColor: ["FgRed", "BgYellow"],
+	// inputColor: ["FgYellow"]
 };
 
 console.log();
 (async function () {
 	while (true) {
-		const { command, choiche } = await nicliPrompt("NYCLY ▶️ ", choiches, options)
+		const { command, choiche, exit } = await nicliPrompt("nicli >", choiches, options)
+		if (exit) process.exit(0)
 		if (!choiche) console.log("unknow command: ", command)
 	}	
 })()

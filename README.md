@@ -20,16 +20,22 @@ Just put the prompt function in an endless loop and react to the returned input.
 import { prompt } from "niclijs"
 
 (async function () {
+
 	while (true) {
-		const { raw } = await nicliPrompt(" NYCLY ▶️ ")
+		const { raw, exit } = await nicliPrompt(" NYCLY ▶️ ")
+
+		if (exit) break
+
 		console.log(">>>", raw)
 	}
+
+	process.exit(0)
 })()
 ```
 
 ### Special Keys
 
-- **Ctrl + c**: close the program
+- **Ctrl + c**: return exit signal
 - **Up/Down arrows**: move through commands history
 - **Tab**: autocomplete (if a command is suggested)
 
@@ -64,7 +70,8 @@ const options: PromptOptions = {
 
 (async function () {
 	while (true) {
-		const { command, choiche } = await nicliPrompt("NYCLY ▶️ ", choiches, options)
+		const { command, choiche, exit } = await nicliPrompt("NYCLY ▶️ ", choiches, options)
+		if (exit) process.exit(0)
 		if (!choiche) console.log("unknow command: ", command)
 	}	
 })()
