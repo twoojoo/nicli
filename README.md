@@ -84,3 +84,7 @@ const options: PromptOptions = {
 	}	
 })()
 ```
+
+## Next steps
+
+- **Smart Autocompletion**: provide arguments in the description and keep suggesting while inserting them
