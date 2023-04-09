@@ -5,6 +5,8 @@ import { COLORS } from "./colors";
 const STDOUT = process.stdout
 const STDIN = process.stdin
 
+export const colors = COLORS
+
 export type ChoicheAction = (args: string[]) => any
 
 export type Choiche = {
