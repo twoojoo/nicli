@@ -44,7 +44,7 @@ import { prompt } from "niclijs"
 ### Special Keys
 
 - **Ctrl + c**: return exit signal
-- **Ctrl + a**: move thecursor to the first position
+- **Ctrl + a**: move the cursor to the first position
 - **Ctrl + e**: move the cursor to the last position
 - **Up/Down arrows**: move through commands history
 - **Tab**: autocomplete (if a command is suggested)
