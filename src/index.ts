@@ -137,7 +137,7 @@ export async function nicliPrompt(head?: string, choiches: Choiche[] = [], optio
 				else if (key.name == "tab") {
 					const text = input.join("")
 					const choiche = matchChoice(text, choiches, options, true)
-					if (choiche) input = [choiche.command + " "]
+					if (choiche) input = choiche.command.split("").concat([""])
 					printInput(prompt, promptLength, input, choiches, options)
 					setCursorPosition(choiche?.command?.length + 1 || 0, promptLength)
 				} 
@@ -178,6 +178,7 @@ function deleteCharacterBeforeCursor(prompt: string, promptLength: number, input
 	const position = getActualCursorPosition(promptLength)
 	if (position <= 0) return []
 	input.splice(position - 1, 1)
+	// console.log("\n", input, position,"\n\n")
 	printInput(prompt, promptLength, input, choiches, options)
 	if (input.length == 0) setCursorPosition(0, promptLength)
 	else setCursorPosition(position - 1, promptLength)

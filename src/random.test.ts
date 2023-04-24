@@ -8,7 +8,7 @@ import { randomInt } from "crypto"
 		for (let i = 0; i <length; i++) prompt += "-"
 		const { raw, exit } = await nicliPrompt(prompt, [{ 
 			command: "MYCOMMAND",
-			description: "my command description"
+			description: "my command description",
 		}], {
 			promptColor: ["FgRed", "BgYellow"],
 			inputColor: ["FgYellow"],
