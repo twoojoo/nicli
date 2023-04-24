@@ -93,6 +93,16 @@ export async function nicliPrompt(head?: string, choiches: Choiche[] = [], optio
 					resolve({ exit: true, args: [] })
 				} 
 
+				else if (key.ctrl && key.name == "a") {
+					printInput(prompt, promptLength, input, choiches, options)
+					setCursorPosition(0, promptLength)
+				} 
+
+				else if (key.ctrl && key.name == "e") {
+					printInput(prompt, promptLength, input, choiches, options)
+					setCursorPosition(input.length, promptLength)
+				} 
+
 				//cursor
 				else if (key.name == "left") {
 					const left = getActualCursorPosition(promptLength) - 1
