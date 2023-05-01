@@ -90,3 +90,7 @@ const options: PromptOptions = {
 ## Next steps
 
 - **Smart Autocompletion**: provide arguments in the description and keep suggesting while inserting them
+
+## Known Bugs
+
+- sometimes, when typing fast, the character gets placed at the begining of the input and not on the cursor position
