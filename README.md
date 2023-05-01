@@ -89,6 +89,7 @@ const options: PromptOptions = {
 
 ## Next steps
 
+- **Better arguments parsing**: implement the use of quotation marks to allow space char in arguments
 - **Smart Autocompletion**: provide arguments in the description and keep suggesting while inserting them
 
 ## Known Bugs
