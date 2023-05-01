@@ -94,3 +94,4 @@ const options: PromptOptions = {
 ## Known Bugs
 
 - sometimes, when typing fast, the character gets placed at the begining of the input and not on the cursor position
+- when suggestion text goes to a new line, so does the cursor (even if it's placed in the right position horizontally)
