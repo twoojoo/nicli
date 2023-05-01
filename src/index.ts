@@ -115,7 +115,7 @@ export async function nicliPrompt(head?: string, choiches: Choiche[] = [], optio
 				//history
 				else if (key.name == "up") {
 					historyIndex = historyIndex == 0 ? 0 : historyIndex - 1
-					input = history[historyIndex] || [""]
+					input = history[historyIndex] || []
 					printInput(prompt, promptLength, input, choiches, options)
 				} else if (key.name == "down") {
 					if (historyIndex >= history.length) input = []
