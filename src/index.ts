@@ -1,7 +1,8 @@
 import { getCommandAndArguments } from "./utils/getCommandAndArguments";
+import { COLORS } from "./utils/colors";
+
 const getCursorPosition = require('get-cursor-position');
 const readline = require('readline');
-import { COLORS } from "./colors";
 
 const STDOUT = process.stdout
 const STDIN = process.stdin
