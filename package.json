@@ -5,10 +5,10 @@
   "type": "commonjs",
   "main": "./dist/index.js",
   "scripts": {
+    "test": "npx jest __tests__",
     "prepare": "npm run build",
-    "test": "npm run build && node dist/test.js",
     "test-dev": "ts-node src/test.ts",
-    "build": "rm -rf ./dist && tsc"
+    "build": "npm run test && rm -rf ./dist && tsc"
   },
   "types": "./dist/index.d.ts",
   "keywords": [
