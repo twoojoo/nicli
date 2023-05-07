@@ -1,3 +1,5 @@
+import { Color } from "../types"
+
 export const COLORS = {
 	FgBlack: (text: string) => modString(text, "\x1b[30m"),
 	FgRed: (text: string) => modString(text, "\x1b[31m"),
@@ -28,4 +30,10 @@ export const COLORS = {
 
 function modString(string: string, modder: string) {
 	return modder + string + `\x1b[0m`
+}
+
+
+export function applyColor(text: string, colors?: Color[]) {
+	if (!colors) return text
+	return colors.reduce((acc, c) => COLORS[c](acc), text)
 }
