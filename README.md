@@ -2,7 +2,7 @@
 
 <br>
 <p align="center">
-  <img src="./demo.gif" alt="demo" />
+  <img src="./demo.gif" alt="demo gif" />
 </p>
 <br>
 

@@ -1,4 +1,4 @@
-import { nicliPrompt } from "./index"
+import { nicliPrompt } from "../src/index"
 import { randomInt } from "crypto"
 
 (async function () {

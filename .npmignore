@@ -2,3 +2,8 @@ node_modules
 .npmrc
 src
 tsconfig.json
+
+examples
+__tests__
+jest.config.js
+demo.gif

@@ -1,3 +1,4 @@
+import { getCommandAndArguments } from "./utils/getCommandAndArguments";
 const getCursorPosition = require('get-cursor-position');
 const readline = require('readline');
 import { COLORS } from "./colors";
@@ -180,7 +181,6 @@ function getActualCursorPosition(promptLength: number): number {
 function setCursorPosition(position: number, promptLength: number): void {
 	if (isNaN(position) || isNaN(promptLength)) return
 	if (position < 0) position = 0
-	// if (position < 1) STDOUT.cursorTo(position + (promptLength - 1))
 	STDOUT.cursorTo(position + (promptLength))
 }
 
@@ -231,9 +231,7 @@ function buildOutput(text: string, choiche: Choiche, options: PromptOptions, pro
 
 	const maxOutputLength = process.stdout.columns
 
-	// console.log(promptLength + (text + choicheText).length, maxOutputLength)
 	if (promptLength + (text + choicheText).length >= maxOutputLength) {
-		// console.log(maxOutputLength)
 		choicheText = choicheText.slice(0, maxOutputLength - text.length - promptLength - 1)
 		choicheText += "…"
 	}
@@ -241,10 +239,11 @@ function buildOutput(text: string, choiche: Choiche, options: PromptOptions, pro
 	return applyColor(text, options.inputColor) + applyColor(choicheText, options.suggestionColor)
 }
 
-export async function parseInput(rawInput: string, choiches: Choiche[], options: PromptOptions): Promise<ParsedInput> {
+async function parseInput(rawInput: string, choiches: Choiche[], options: PromptOptions): Promise<ParsedInput> {
 	if (!rawInput) return
-	const command = rawInput.split(" ")[0]
-	const args = rawInput.split(command + " ")[1]?.split(" ") || []
+
+	const { command, args } = getCommandAndArguments(rawInput)
+
 	const choiche = matchChoice(command, choiches, options, false)
 
 	if (options.triggerActions) {
@@ -290,3 +289,4 @@ function parsePrompt(prompt: string, options: PromptOptions): { prompt: string, 
 	}
 	return { prompt, promptLength }
 }
+
