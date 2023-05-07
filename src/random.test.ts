@@ -9,6 +9,9 @@ import { randomInt } from "crypto"
 		const { raw, exit } = await nicliPrompt(prompt, [{ 
 			command: "MYCOMMAND",
 			description: "my command description",
+		},{ 
+			command: "MY_LONG_COMMAND",
+			description: "my very long longest longer bla bla bla bla aaaaaaaaaaaaaaaaaaaaaaaaaaac description",
 		}], {
 			promptColor: ["FgRed", "BgYellow"],
 			inputColor: ["FgYellow"],

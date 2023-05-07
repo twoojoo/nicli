@@ -216,18 +216,27 @@ function printInput(prompt: string, promptLength: number, input: string[], choic
 	}
 
 	const choiche = matchChoice(text, choiches, options, true)
-	const output = buildOutput(text, choiche, options)
+	const output = buildOutput(text, choiche, options, promptLength)
 
 	STDOUT.write(output)
 	setCursorPosition(text.length, promptLength)
 }
 
-function buildOutput(text: string, choiche: Choiche, options: PromptOptions): string {
+function buildOutput(text: string, choiche: Choiche, options: PromptOptions, promptLength: number): string {
 	if (!choiche) return applyColor(text, options.inputColor)
 
-	const choicheText = choiche.description ? 
+	let choicheText = choiche.description ? 
 		(choiche.command + " - " + choiche.description).slice(text.length) : 
-		choiche.command.slice(text.length) 
+		choiche.command.slice(text.length)
+
+	const maxOutputLength = process.stdout.columns
+
+	// console.log(promptLength + (text + choicheText).length, maxOutputLength)
+	if (promptLength + (text + choicheText).length >= maxOutputLength) {
+		// console.log(maxOutputLength)
+		choicheText = choicheText.slice(0, maxOutputLength - text.length - promptLength - 1)
+		choicheText += "…"
+	}
 
 	return applyColor(text, options.inputColor) + applyColor(choicheText, options.suggestionColor)
 }
