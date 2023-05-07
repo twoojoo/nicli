@@ -7,7 +7,6 @@
   "scripts": {
     "test": "npx jest __tests__",
     "prepare": "npm run build",
-    "test-dev": "ts-node src/test.ts",
     "build": "npm run test && rm -rf ./dist && tsc"
   },
   "types": "./dist/index.d.ts",
