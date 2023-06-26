@@ -4,11 +4,13 @@ import { parseInputArguments } from "./parseInputArguments"
 export function getCommandAndArguments(input: string): { command: string, args: string[]} {
 	const firstSpaceChar = input.indexOf(" ")
 
+	//command = everything before the first space character
 	const command = input.slice(0, firstSpaceChar)	
 
-	const argumentsSection = input.slice(firstSpaceChar)
-	
-	const args = parseInputArguments(argumentsSection)
+	//argsString = everything after the first space character
+	const argsString = input.slice(firstSpaceChar + 1)
+
+	const args = parseInputArguments(argsString)
 
 	return {
 		command,

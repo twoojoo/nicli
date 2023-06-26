@@ -1,14 +1,25 @@
 /**receives the input arguments section (without command) and returns an array of arguments*/
-export function parseInputArguments(inputArgsSection: string): string[] {
+export function parseInputArguments(argsString: string): string[] {
 	const args: string[] = []
 
 	let lastArgStartsAt: number = undefined
 	let lastArgDelimiter: string = " "
 
-	for (let i = 0; i < inputArgsSection.length; i++) {
-		const char = inputArgsSection.charAt(i)
+	for (let i = 0; i < argsString.length; i++) {
+		const char = argsString.charAt(i)
 
-		if (lastArgStartsAt === undefined) {
+		//if end of args string
+		if (i === argsString.length - 1) {
+			//and if currently parsing an argument
+			if (lastArgStartsAt !== undefined) {
+				const lastValidIndex = char == lastArgDelimiter ? i : i + 1
+				const arg = argsString.slice(lastArgStartsAt, lastValidIndex)
+				args.push(arg)
+			}
+		} 
+
+		//not currently parsing an argument
+		else if (lastArgStartsAt === undefined) {
 			if (char === " ") {
 				continue
 			}
@@ -29,9 +40,12 @@ export function parseInputArguments(inputArgsSection: string): string[] {
 				lastArgStartsAt = i
 				continue
 			}
-		} else {
+		} 
+
+		//currently parsing an argument
+		else {
 			if (char === lastArgDelimiter) {
-				const arg = inputArgsSection.slice(lastArgStartsAt, i)
+				const arg = argsString.slice(lastArgStartsAt, i)
 				args.push(arg)
 				lastArgDelimiter = " "
 				lastArgStartsAt = undefined
